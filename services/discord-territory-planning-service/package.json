@@ -1,0 +1,36 @@
+{
+  "name": "@red-cup-engineering/discord-territory-planning-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/*.mjs",
+    "test": "node --test test/*.test.mjs",
+    "verify": "npm run check && npm test"
+  },
+  "x-agentic-metro-enterprise": {
+    "node-id": "discord-territory-planning-service",
+    "actor": "urn:ame:discord-territory-planning-service",
+    "owners": [
+      "discord-services-section"
+    ]
+  },
+  "x-semiotic-voxel": {
+    "profile": "org.harmonious-union.semiotic-voxel.v1",
+    "owner": "red-cup-engineering",
+    "kind": "capability-cell",
+    "actor": "urn:ame:discord-territory-planning-service",
+    "operations": [
+      "discord-territory-planning-service"
+    ],
+    "capabilities": [
+      {
+        "capability": "discord-territory-planning-service",
+        "faces": [
+          "discord-territory-planning-service"
+        ]
+      }
+    ],
+    "package": "@red-cup-engineering/discord-territory-planning-service"
+  }
+}

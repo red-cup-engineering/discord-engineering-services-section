@@ -1,0 +1,8 @@
+#lang rmn/v2
+(map
+  ("type" "DiscordNewsTerritoryPlanningLaw") ("version" 1)
+  ("provider" "urn:ame:discord-territory-planning-service")
+  ("precondition" "One colony-authored guild identity, ordered category and channel specifications, exact audiences, and admitted member identifiers are supplied without credentials.")
+  ("operation" "Validate the bounded specification and return symbolic idempotent ensure-role, ensure-category, ensure-channel, and ensure-role-assignment operations.")
+  ("postcondition" "The customer can resolve and apply the plan through its own Discord boundary executor, then issue its own receipt.")
+  ("refusal" "Refuse credentials, unbounded discovery, unknown audience kinds, duplicate names, direct Discord effects, or implicit membership."))
