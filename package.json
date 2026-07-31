@@ -3,23 +3,5 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Reusable Discord territorial planning without cross-colony plate writes.",
-  "x-agentic-metro-enterprise": {
-    "node-id": "discord-services-section",
-    "owners": [
-      "executive-office",
-      "web-services-section"
-    ],
-    "admission": "colony-authored desired Discord territory and exact membership assertions",
-    "refusal": "credentials, ambient discovery, or authority to mutate a customer's guild"
-  },
-  "x-semiotic-voxel": {
-    "profile": "org.harmonious-union.semiotic-voxel.v1",
-    "owner": "red-cup-engineering",
-    "kind": "actor",
-    "actor": "urn:ame:discord-services-section",
-    "operations": [],
-    "capabilities": [],
-    "package": "@red-cup-engineering/discord-services-section"
-  }
+  "description": "Reusable Discord territorial planning without cross-colony plate writes."
 }
