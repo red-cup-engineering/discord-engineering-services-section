@@ -1,0 +1,7 @@
+{
+  "name": "@red-cup-engineering/discord-services-section",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reusable Discord territorial planning without cross-colony plate writes."
+}
