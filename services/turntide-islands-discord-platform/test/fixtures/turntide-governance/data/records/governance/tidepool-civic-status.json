@@ -1,0 +1,35 @@
+{
+  "type": "TidepoolCivicStatus",
+  "version": 1,
+  "status": "synthetic test fixture; not a Turntide record",
+  "observedAt": "2026-01-01T00:00:00.000Z",
+  "authorityEffect": "informational",
+  "runtime": {
+    "operationState": "fixture-installed",
+    "operations": [
+      "fixture-op"
+    ],
+    "availableToGeneralTurntideOrBoardOffice": false
+  },
+  "executor": {
+    "incumbentState": "fixture-vacant",
+    "seatReady": false,
+    "participantIntentOperations": [
+      "fixture-op"
+    ],
+    "protocolCloseCandidates": []
+  },
+  "staffing": {
+    "state": "fixture-unstaffed"
+  },
+  "firstOperatingLoop": {
+    "state": "fixture-unreceived",
+    "currentBlocker": "fixture blocker"
+  },
+  "authorityBoundaries": {
+    "zeloHasTidepoolProtocolExecutionAuthority": false
+  },
+  "freshness": {
+    "observedBy": "fixture"
+  }
+}

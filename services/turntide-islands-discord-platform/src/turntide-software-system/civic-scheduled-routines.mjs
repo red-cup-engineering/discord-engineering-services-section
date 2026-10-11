@@ -1,11 +1,11 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 
 import { normalizedName } from "./discord.mjs";
 import { env, packageRoot, publicTurntideRoot } from "./env.mjs";
 import { readRoutineCandidateIntake } from "./civic-routine-candidates.mjs";
 import { readProposalSubmissionEvents } from "./civic-proposal-drafts.mjs";
+import { loadZeloCivicContext, scheduledCivicReview } from "./zelo-civic-service.mjs";
 
 const defaultState = Object.freeze({ version: 1, initialized: false });
 
@@ -37,10 +37,8 @@ export async function runCivicScheduledRoutines({
   if (!transport || typeof transport.createMessage !== "function") throw new TypeError("scheduled civic routines require a Discord transport");
   if (!Array.isArray(channels)) throw new TypeError("scheduled civic routines require channel listings");
 
-  const civicRoot = publicTurntideRoot(source);
-  const civicModule = await import(pathToFileURL(path.join(civicRoot, "lib", "zelo-civic-service.mjs")).href);
   const [context, candidates, proposalEvents] = await Promise.all([
-    civicModule.loadZeloCivicContext(civicRoot),
+    loadZeloCivicContext(publicTurntideRoot(source)),
     readRoutineCandidateIntake(dataRoot),
     readProposalSubmissionEvents(dataRoot),
   ]);
@@ -48,7 +46,7 @@ export async function runCivicScheduledRoutines({
     event.type === "TurntideProposalSubmissionReceipt" && event.state === "proposed");
   const stateFile = civicScheduledStateFile(dataRoot);
   const state = await readCivicScheduledState(stateFile);
-  const review = civicModule.scheduledCivicReview(context, {
+  const review = scheduledCivicReview(context, {
     state,
     routineCandidates: candidates,
     proposalSubmissions,

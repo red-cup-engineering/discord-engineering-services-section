@@ -1,0 +1,17 @@
+{
+  "type": "TurntideStandingPathways",
+  "version": 1,
+  "status": "synthetic test fixture; not a Turntide record",
+  "authorityEffect": "informational-only",
+  "pathways": [
+    {
+      "id": "fixture-delegation",
+      "title": "Fixture bounded delegation",
+      "when": "fixture work recurs",
+      "creates": "a delegation request",
+      "requires": "a governing act",
+      "zeloCan": "draft the request",
+      "next": "ask for a fixture delegation"
+    }
+  ]
+}
