@@ -1,0 +1,19 @@
+[Unit]
+Description=Turntide Islands Discord and community publication runtime
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/home/emsenn/561-group/lib/turntide-islands
+EnvironmentFile=/home/emsenn/561-group/lib/turntide-islands/.env
+Environment=HOST=127.0.0.1
+Environment=PORT=18847
+Environment=TTI_AGENT_MODEL=nvidia/nemotron-3-nano-30b-a3b
+ExecStart=/home/emsenn/.nvm/versions/node/v24.16.0/bin/node dist/turntide-software-system/serve.mjs
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

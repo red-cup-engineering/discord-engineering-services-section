@@ -1,0 +1,12 @@
+[Unit]
+Description=Turntide Islands Zelo placement desk: post what the pace allows
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/emsenn/services/turntide-islands-discord-platform
+ExecStart=/home/emsenn/.nvm/versions/node/v24.16.0/bin/node --env-file=runtime.env shared/place-offers.mjs --shape shared/turntide-islands.guild.json --ledger shared/data/agent/placement-ledger.json --live
+StandardInput=null
+TimeoutStartSec=5min
+UMask=0077

@@ -1,0 +1,221 @@
+{
+  "type": "TTIUnionMediaSyndicationProduct",
+  "version": 6,
+  "id": "tti-union-media-syndication-2026-01",
+  "status": "channel-live-enterprise-authentication-live-agent-resource-auction-intake-blocked",
+  "name": "Turntide Union Media Placement",
+  "seller": "urn:ame:turntide-islands",
+  "customer": "An authenticated Harmonious Union enterprise with a rights-cleared announcement or media destination to advertise to the UHC Embassy audience.",
+  "promise": "For each quarter-hour cycle, TTI awards at most one editorially admitted Union Media placement to the highest comparable agent-resource bidder, publishes only after the winning resource commitment settles, ordinarily retains the placement for at least seven days, and preserves correction or retraction history.",
+  "exclusions": [
+    "No guarantee of views, clicks, conversions, endorsement, targeting, exclusivity, or permanent availability",
+    "No advertiser access to Discord credentials, channel write authority, member identities, reactions, messages, or audience profiles",
+    "No mass mentions, direct messages, behavioral targeting, political persuasion, or ordinary Discord-message commercialization"
+  ],
+  "auction": {
+    "kind": "sealed-local-utility-resource-auction",
+    "sellerAsk": null,
+    "reserve": null,
+    "commonDenomination": null,
+    "cyclesPerUtcHour": 4,
+    "slotMinutes": [0, 15, 30, 45],
+    "ranking": ["evidence-derived cycle-frozen TTI binding-constraint rank descending", "TTI-assayed class-compatible marginal-effect rank descending", "TTI-assayed offer fit descending", "witnessed valuation time ascending", "semantic valuation identity ascending"],
+    "resourceOffer": {
+      "kind": "AgentResourceCommitment",
+      "classes": ["compute", "research", "data-access", "image-access", "editorial", "moderation", "operations", "other-explicit-resource"],
+      "quantityAndUnit": "declared by bidder and retained without claiming cross-resource fungibility",
+      "monetaryClaim": false,
+      "x402Applicable": false,
+      "fulfillmentRule": "Every bid binds exact capability, quantity, unit, rights, validity, fulfillment contract, and authority."
+    },
+    "sealedBidIngress": {
+      "contract": "ni:///sha-256;c7Lyl9FfYBgTCtn8FPG43qQhzKzjo338yG9oJTwdpuQ",
+      "law": "content/contracts/union-media-sealed-bid-ingress.rml",
+      "customerDie": "@red-cup-engineering/turntide-islands-discord-platform/union-media-sealed-bid-activitypub.mts",
+      "status": "customer-die-ready-live-carrier-route-unavailable",
+      "privacy": "TTI stores the admitted offer only in its private settlement category; the ActivityPub outbox is empty and the bidder acknowledgement exposes no offer, valuation, rank, competitor, Discord, revenue, or profit data.",
+      "replay": "One exact bid per enterprise and cycle; exact replay returns the prior admission and changed or concurrent replay refuses."
+    },
+    "valuation": {
+      "configuration": "content/configurations/union-media-local-needs-ranking.json",
+      "policy": "Before each cycle opens, TTI derives and freezes a self-addressed account from recent typed TTI business-impact observations whose exact observation and evidence identities were independently read from TTI's settlement store. Operators and bidders cannot supply numeric scarcity ranks.",
+      "evidenceClasses": ["unfulfilled customer obligation and deadline", "attributable-cost baseline and cost dimension", "active qualified-demand experiment and expiry", "bounded TTI capability evidence"],
+      "rankDerivation": "Business-impact class descending, evidence horizon ascending, and observation semantic identity ascending produce a unique local constraint rank. Stale, future, duplicate-resource-class, foreign-authority, sensitive, or unevidenced observations refuse the whole policy.",
+      "assay": "An authorized TTI evaluator witnesses usable quantity, the exact constraint relieved, next profitable act enabled, class-compatible marginal effect, fit, substitutes, integration burden, delivery risk, evidence, and limitations.",
+      "ordering": "Bids rank by the ordinal tuple [binding-constraint rank, marginal-effect rank, fit], not by a fabricated exchange rate between resource units.",
+      "meaning": "One usable unit of compute may outrank one million image-access units when compute is TTI's binding constraint and imagery is not. The ordering reverses when TTI's witnessed enterprise state reverses. The tuple is nontransferable decision evidence, not consideration, price, profit, or currency."
+    },
+    "settlementRule": "The winning enterprise fulfills its own offered resource before publication. TTI records acquired heterogeneous resources separately from cash revenue and monetary profit.",
+    "emptyCycleRule": "No admissible bid means no placement; TTI never invents content or consideration."
+  },
+  "inventory": {
+    "targetPlacementsPerUtcHour": {"minimum": 1, "maximum": 4},
+    "placementsPerAdvertiserPerUtcHour": 1,
+    "reservationRule": "Only a cleared winning bid followed by the exact witnessed agent-resource transfer reserves publication.",
+    "deficitRule": "Fewer than one actual placement in an hour is reported as unmet distribution demand; TTI never fabricates, repeats, or publishes unsettled content to fill the target.",
+    "currentPaidPlacements": 0
+  },
+  "creative": {
+    "headlineMaximumCharacters": 80,
+    "bodyMaximumCharacters": 600,
+    "destinations": "One HTTPS destination controlled by the authenticated advertiser and separately admitted by TTI",
+    "disclosure": "Every publication begins Union Media and Sponsored by the advertiser display name.",
+    "allowedMentions": "none"
+  },
+  "contract": {
+    "path": "content/contracts/union-media-syndication.rml",
+    "semanticId": "ni:///sha-256;_3Vr73uJvicSjls4LCZoNspuAKpUl2RFKC0auMcGfS4"
+  },
+  "marketCircuit": {
+    "path": "content/circuits/union-media-syndication-circuit.json",
+    "latestVerificationReceipt": "ni:///sha-256;iUAXlJ_izboYumc2srRFODwQZLwPLr9e9xth_vujAA8",
+    "status": "structurally-passed-discovery-live-value-acquisition-open"
+  },
+  "territory": {
+    "guildId": "1184863861065658419",
+    "categoryName": "UHC Embassy",
+    "categoryId": "1529174198478700716",
+    "channelName": "union-media",
+    "channelDisplayName": "Union Media",
+    "channelId": "1529258772982403203",
+    "launchMessageId": "1529258775003795707",
+    "launchReceipt": "ni:///sha-256;ztA4UCX3cU0KpcSauUdI5fjI6UsN2hh5r2oKZ4Gqnpg",
+    "publicationAuthority": "urn:ame:turntide-islands"
+  },
+  "advertiserBoundary": {
+    "protocol": "verified ActivityStreams Create carrying one RFC6920-named canonical RMN TTIUnionMediaPlacementRequest",
+    "implementation": "@red-cup-engineering/turntide-islands-discord-platform/union-media-placement-activitypub.mts plus lib/management/union-media-syndication.mjs",
+    "ingressContract": "ni:///sha-256;lA86YpfReCyssDxcPqC0ooB-OscHHYoPe13BWmHB8jQ",
+    "carrierProvider": "urn:ame:activitypub-services-section",
+    "carrierContracts": ["activitypub-services-section/signed-delivery/v1", "activitypub-services-section/rmn-link/v1"],
+    "treaty": "content/contracts/union-media-activitypub-treaty.json",
+    "liveStatus": "tti-customer-die-and-local-origin-discovery-live-awaiting-executable-accepted-carrier-public-host-signed-agent-card-and-advertiser-identity",
+    "localOriginSurface": {
+      "manifest": "content/configurations/union-media-origin-route-manifest.json",
+      "implementation": "@red-cup-engineering/turntide-islands-discord-platform/union-media-origin.mts",
+      "server": "@red-cup-engineering/turntide-islands-discord-platform/serve-union-media-origin.mts",
+      "unit": "turntide-islands-union-media-origin.service",
+      "loopbackTarget": "http://127.0.0.1:18849/",
+      "status": "live-least-authority-local-discovery-ready-raw-inbox-agent-card-and-jwks-fail-closed",
+      "probeReceipt": "ni:///sha-256;cANEOiLGycaDcVPuBuURozWW0e3rfXHhjygN1xiI8hw",
+      "readyRoutes": ["WebFinger", "NodeInfo discovery", "NodeInfo 2.1", "Union Media actor", "empty outbox", "route manifest"],
+      "blockedRoutes": ["signed inbox delivery", "signed Agent Card", "Agent Card JWKS"],
+      "authority": "The dedicated loopback process serves only the admitted origin manifest. Its systemd sandbox is read-only, loopback-network-only, no-new-privileges, private-device, and carries no secret-bearing environment name. It has no Discord, membership, payment, customer-admission, bid, publication, or foreign-provider authority."
+    },
+    "localProbe": "exact injected verified-carrier expectations, canonical RMN decode, treaty/authentication/destination admission, exact replay, changed-request conflict, concurrent one-use serialization, and no-economic-effect tests pass",
+    "carrierSupplyChain": "The packed provider candidate was refused and removed because its npm payload included foreign EVM keystore and displaced-binding files. A later direct provider-face assay was refused because a fresh provider process could not resolve its declared runtime dependency from its own settlement. TTI did not repair the foreign plate, inspect custody bytes, or accept the already-running Koios process as TTI supply evidence.",
+    "carrierCandidateRefusalReceipt": "ni:///sha-256;2i1JAQccPqNwssJMV1TukNVXCDa0Cru5IrMVj9b-exQ",
+    "carrierServiceProposal": "ni:///sha-256;CI1gNmbm1YjNqHVG9Hdq7HGqud38c9xLaW2cAsLC3SM",
+    "carrierRuntimeRefusalReceipt": "ni:///sha-256;x9apMODi54K1yIjNYlEt29pekihlSMDjmC7iiV0hp_4",
+    "currentPlacementRequestAdmissions": 0,
+    "currentPlacementRequestEnterprises": 0,
+    "required": ["exact treatied ActivityPub actor and A2A Agent Card", "unexpired one-use TTI enterprise authentication receipt", "advertiser settlement", "campaign identity", "headline", "body", "exact already-proved destination", "display name", "rights attestation", "sponsorship acknowledgement", "correction contact", "exact syndication and ingress contract acknowledgements"],
+    "legalEffect": "request intake awaiting separate TTI editorial judgment only; no creative approval, bid, inventory reservation, resource transfer, publication, revenue, or profit"
+  },
+  "infrastructureProviderBoundary": {
+    "solicitation": "content/solicitations/union-media-activitypub-and-hosting.json",
+    "discordMarker": "UNION-MEDIA-INFRASTRUCTURE-OFFER",
+    "intake": "A provider representative mentions Zelo in TTI Discord with the marker, enterprise name, and carrier, DNS/HTTPS hosting, or combined service class.",
+    "rosterClassification": "service-provider-offer",
+    "privacy": "The private work roster retains the Discord source pointer and content digest but not message text.",
+    "legalEffect": "nonbinding provider lead only; no contract acceptance, credential disclosure, custody grant, DNS authority, foreign plate mutation, spend, placement, revenue, or profit",
+    "currentQualifiedOffers": 0,
+    "currentAcceptedProviders": 0
+  },
+  "representativeIntentBoundary": {
+    "command": "/union-media-intent",
+    "verificationCommand": "/union-media-verify",
+    "status": "live-uhc-private-leader-only-sponsor-referral-and-destination-control-rehearsal",
+    "discordVisibility": "Administrator-only guild-command registration (therefore no direct-message surface); runtime requires the configured TTI leader in guild 1184863861065658419 channel 1529258772982403203.",
+    "externalAdvertiserPath": "Sovereign advertisers do not receive Discord command access; they cross the verified ActivityPub advertiser boundary once its carrier and public origin are accepted.",
+    "contract": "ni:///sha-256;ZHOZcQ2d6ehuLPMTQp5pXOFSQtflUSybLqF6CUSvyts",
+    "consentToken": "AGREE-PERMANENT-NONPERSONAL-UNION-MEDIA-INTENT",
+    "auctionInterestToken": "YES-FUTURE-AUCTION",
+    "destinationVerificationToken": "VERIFY-DESTINATION-CONTROL",
+    "challengeProtocol": "seven-day DNS TXT challenge bound to the declared destination host and original intent",
+    "currentRepresentativeActors": 0,
+    "currentDeclaredEnterprises": 0,
+    "currentDestinationControlledLeads": 0,
+    "qualifiedAuthenticatedEnterprises": 0,
+    "legalEffect": "UHC-private sponsor/referral and destination-control rehearsal only; no public command discovery, advertiser entitlement, enterprise or representative authentication, bid, valuation, award, resource transfer, publication promise, revenue, or profit"
+  },
+  "enterpriseAuthenticationBoundary": {
+    "command": "/union-media-authenticate",
+    "status": "live-uhc-private-leader-only-awaiting-first-account-authored-delegation",
+    "contract": "ni:///sha-256;xX10couZ9FmdpLcQFvlvxBFdZemz55UJ_-h_sxQR0Ss",
+    "providerProtocol": "org.emsenn.evm.typed-commitment-projection.v1 through the advertiser's own ERC-4337/ERC-1271 sovereign account",
+    "finalityPolicy": "registry-pinned confirmation depth; zero confirmations only for the admitted local-Anvil pilot chain",
+    "registry": "content/admissions/union-media-advertisers.json",
+    "authenticationReadyEnterprises": 1,
+    "discoveredEnterprisesAwaitingAccountCarrier": 4,
+    "currentAuthenticatedEnterprises": 0,
+    "scope": "one later contract-complete placement request bound to the original representative intent and destination proof",
+    "legalEffect": "enterprise account and representative delegation authentication only; no placement request, creative approval, bid, valuation, award, resource transfer, publication, revenue, or profit"
+  },
+  "commercial": {
+    "settlementProtocol": "bilateral nonmonetary AgentServiceCommitment transfer with independent TTI receipt",
+    "settlementStatus": "customer-settlement-and-sealed-bid-dies-ready-live-carrier-and-first-provider-transfer-blocked",
+    "settlementCustomerDie": "lib/management/union-media-syndication.mjs#admitUnionMediaResourceSettlement",
+    "sealedBidCustomerDie": "@red-cup-engineering/turntide-islands-discord-platform/union-media-sealed-bid-activitypub.mts#createUnionMediaSealedBidActivityPubCallbacks",
+    "localNeedsCustomerDie": "lib/management/union-media-syndication.mjs#deriveUnionMediaLocalNeedsPolicy",
+    "localNeedsStatus": "first-live-current-operations-need-and-derived-policy-witnessed-recompute-required-per-cycle",
+    "latestLiveLocalNeedsObservation": {
+      "recordedAt": "2026-07-22T02:54:59.556Z",
+      "evidenceId": "ni:///sha-256;0_MXUF1Stlel3MscIUqVbrmRquGkdkWPlkhOI4YKkbI",
+      "observationId": "ni:///sha-256;GY1ZiRu2-Fnjyuc9S3P1WyxNVEhlciMaPQ6ooFIFOxc",
+      "policyId": "ni:///sha-256;1TkAKrZKxnpOvweleAs9vhpnggNfu-yTF0GwmmhAmtE",
+      "policyValidThrough": "2026-07-22T03:54:59.556Z",
+      "resourceClass": "operations",
+      "unit": "accepted-carrier-origin-hour",
+      "minimumUsableQuantity": 1,
+      "maximumUsefulQuantity": 1,
+      "publicOriginStatus": "unresolvable",
+      "economicMeaning": "For this witnessed horizon, accepted carrier-and-origin operations enable the live qualified-demand experiment. Compute, image access, and every other resource receive no rank unless a separate current TTI need is witnessed. This is local decision evidence, not a price or global value claim."
+    },
+    "publicationGate": "Rendering requires an exact self-addressed settlement admission binding the winner, creative, unchanged offer and rights, authenticated provider transfer, TTI capability/rights/validity assay, typed attributable costs, and cycle publication instant.",
+    "externalRevenueReceiptCount": 0,
+    "recognizedRevenueMicros": 0,
+    "acquiredAgentResourceUnits": 0,
+    "attributableCostMicros": null,
+    "recognizedProfitMicros": null,
+    "activationBlockers": [
+      "Provider-authored acceptance of the TTI carrier proposal, executable provider-owned runtime dependencies, and an independent signed-delivery acceptance probe",
+      "Accepted public HTTPS hosting contract, resolvable TTI origin, and first advertiser ActivityPub actor/Agent Card treaty",
+      "Live accepted carrier composition routing the already-tested placement-request and sealed-bid ActivityStreams Create faces into the witnessed least-authority loopback origin",
+      "Per-cycle recomputation of current typed TTI business-impact evidence and independent valuation under the admitted resource-desk authority",
+      "First authenticated winning transfer carrying the already-enforced heterogeneous offer, rights, fulfillment authority, and resource-specific capability evidence",
+      "Advertiser terms, content standards, correction, retraction, default, and platform-policy review",
+      "Live resource-specific capability assay, default/fallback exercise, slot reservation, and Discord publication receipt"
+    ]
+  },
+  "measurement": {
+    "demand": "Report unverified Discord representative actors, declared enterprises, destination-controlled qualified leads, authenticated Union enterprises, and admitted placement-request enterprises as separate stages",
+    "conversion": "Report representative-to-proof, proof-to-authentication, authentication-to-placement-request, editorial, bid, and cleared-cycle conversion separately; never promote a prior stage into a later one",
+    "fulfillment": "On-cycle Discord publication receipts divided by winning bids with fulfilled resource transfers",
+    "economics": "Acquired capability-bound agent resources, publication/correction/default costs, and any same-unit surplus are measured separately; none is cash revenue or monetary profit",
+    "privacy": "Aggregate enterprise counts only; no Discord member identity, content, reaction, destination, challenge value, or targeting data",
+    "latestAdvertiserDiscoverySnapshot": {
+      "receipt": "ni:///sha-256;p0dqQB0cOOjututl8PljvaoCs0b5JCFrWZOloEbNXQ8",
+      "representativeIntentAdmissions": 0,
+      "distinctRepresentativeActors": 0,
+      "distinctDeclaredEnterprises": 0,
+      "destinationControlProofAdmissions": 0,
+      "distinctDestinationControlledActors": 0,
+      "enterpriseAuthenticationAdmissions": 0,
+      "authenticatedEnterpriseCount": 0,
+      "placementRequestAdmissions": 0,
+      "placementRequestEnterpriseCount": 0,
+      "placementRequestAuthenticationConflictCount": 0,
+      "inference": "no-advertiser-demand-observed-yet"
+    }
+  },
+  "launchExperiment": {
+    "id": "EXP-UNION-MEDIA-001",
+    "status": "live-awaiting-enterprise-intent",
+    "hypothesis": "Within fourteen days, at least two sovereign Union enterprises will offer contract-shaped placement intent and at least one quarter-hour cycle will receive a heterogeneous resource offer that TTI can evidence as useful under its frozen needs.",
+    "pass": "distinct advertiser enterprises >= 2; locally valuable admitted bids >= 1; every cycle clears at most one placement; every hour publishes at most four placements",
+    "onPass": "Commission authenticated sealed-bid intake and one exact low-volume resource-transfer-bound auction cycle.",
+    "onFail": "Interview the invited channel enterprises about audience fit, creative bounds, useful agent-resource consideration, timing, and proof of delivery before changing the product.",
+    "economicEffect": "none"
+  }
+}

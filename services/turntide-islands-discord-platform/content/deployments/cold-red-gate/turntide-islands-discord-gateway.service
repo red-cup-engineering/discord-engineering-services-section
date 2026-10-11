@@ -1,0 +1,18 @@
+[Unit]
+Description=Turntide Islands Discord interaction gateway
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/home/emsenn/services/turntide-islands-discord-platform/gateway-current
+Environment=NODE_ENV=production
+Environment=PATH=/home/emsenn/.nvm/versions/node/v24.16.0/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/home/emsenn/services/turntide-islands-discord-platform/runtime.env
+ExecStart=/home/emsenn/.nvm/versions/node/v24.16.0/bin/node dist/turntide-software-system/scripts/discord-interactions.mjs
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target
