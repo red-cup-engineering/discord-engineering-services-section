@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { appendFile, mkdir, readFile } from "node:fs/promises";
-import { armedFreeProviders, dispatchFreeFirst } from "@red-cup-engineering/computer-inference-engine/openai/provider-runtime";
+import { armedProviders, dispatchInOrder } from "@red-cup-engineering/computer-inference-engine/openai/provider-runtime";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { bootstrapChannels, bootstrapCommands, communityName, laneByName, membershipProgram, persona, renderOrchestrationSystem, renderPersonaSystem } from "./index.mjs";
@@ -17,9 +17,10 @@ import { climateWireStoreDir } from "./climate-signals.mjs";
 import { ingestClimateSignals } from "./signal-ingest.mjs";
 import { runZeloTick } from "./zelo-tick.mjs";
 import { expressionsRoot, projectExpressions } from "./expressions.mjs";
-import { recordRoutineCandidateIntake, routineCandidateForAuthor, routineCandidateInboxForAuthor, routineCandidateObservation } from "./civic-routine-candidates.mjs";
+import { beginRoutineCandidateSubmission, completeRoutineCandidateSubmission, recordRoutineCandidateFieldUpdate, recordRoutineCandidateIntake, routineCandidateForAuthor, routineCandidateInboxForAuthor, routineCandidateObservation, routineCandidateSubmitHandle, routineCandidateUpdateCommand } from "./civic-routine-candidates.mjs";
 import { beginProposalSubmission, completeProposalSubmission, proposalDraftForAuthor, proposalDraftInboxForAuthor, proposalDraftRequestedAct, proposalDraftSubmitHandle, proposalDraftUpdateCommand, recordProposalDraftFieldUpdate, recordProposalDraftIntake } from "./civic-proposal-drafts.mjs";
 import { runCivicScheduledRoutines } from "./civic-scheduled-routines.mjs";
+import * as civicModule from "./zelo-civic-service.mjs";
 import { buildCivicDocket, formatCivicDocket } from "./civic-docket.mjs";
 import { env, integerEnv, loadRuntimeEnv, packageRoot, publicTurntideRoot } from "./env.mjs";
 import {
@@ -682,7 +683,7 @@ async function runPollingSteward(source) {
           seen.add(`reply:${message.id}`);
           continue;
         }
-        if (message.authorBot || seen.has(`reply:${message.id}`) || !shouldReply(message.content, bot.id)) continue;
+        if (message.authorBot || seen.has(`reply:${message.id}`) || !shouldReply(message.content, bot.id, channel.name)) continue;
         seen.add(`reply:${message.id}`);
         await answerMessage(transport, channel, message, source);
       }
@@ -712,7 +713,9 @@ async function answerMessage(transport, channel, message, source = process.env) 
   if (civic !== null) {
     const answer = civic?.kind === "turntide.civic.proposal-submission-request"
       ? await executeProposalSubmissionIntent(transport, civic, source)
-      : civic;
+      : civic?.kind === "turntide.civic.routine-candidate-submission-request"
+        ? await executeRoutineCandidateSubmissionIntent(transport, civic, source)
+        : civic;
     return transport.createMessage(channel.id, {
       content: String(answer).slice(0, 1900),
       allowedMentions: { users: [] },
@@ -781,6 +784,52 @@ export async function executeProposalSubmissionIntent(transport, request, source
   }
 }
 
+
+
+export async function executeRoutineCandidateSubmissionIntent(transport, request, source = process.env) {
+  if (request?.kind !== "turntide.civic.routine-candidate-submission-request") throw new TypeError("routine candidate submission executor requires a civic submission request");
+  const guildId = env("DISCORD_GUILD_ID", source)
+    ?? (await transport.listGuilds()).find((guild) => guild.name === communityName)?.id
+    ?? (await transport.listGuilds())[0]?.id;
+  if (guildId === undefined) return "I cannot submit that routine candidate because the Turntide Discord guild is unavailable.";
+  const channels = await transport.listChannels(guildId);
+  const target = channels.find((candidate) => normalizedName(candidate.name) === "governance-proposals");
+  if (target === undefined) return "I cannot submit that routine candidate because #governance-proposals is unavailable.";
+
+  const begin = await beginRoutineCandidateSubmission({
+    dataRoot: request.dataRoot,
+    authorId: request.authorId,
+    handle: request.handle,
+    message: request.message,
+  });
+  if (begin.state === "incomplete") return `Routine candidate ${request.handle} is not ready to submit; still needed: ${begin.missing.join(", ")}.`;
+  if (begin.state === "proposed") return `Routine candidate ${begin.routineProposalId} is already proposed in #${begin.receipt.publicMessage.channelName ?? "governance-proposals"}.`;
+  if (begin.state === "pending") return `Routine candidate submission ${begin.routineProposalId} is already pending and its public receipt is unresolved. I will not duplicate it; reconcile that submission before retrying.`;
+
+  let posted;
+  try {
+    posted = await transport.createMessage(target.id, { content: begin.content, allowedMentions: { users: [] } });
+  } catch (error) {
+    return `Routine candidate submission ${begin.routineProposalId} entered pending state, but I could not confirm the public Discord post (${error instanceof Error ? error.message : String(error)}). I will not duplicate it until that ambiguity is reconciled.`;
+  }
+
+  try {
+    const completed = await completeRoutineCandidateSubmission({
+      dataRoot: request.dataRoot,
+      intent: begin.intent,
+      publicMessage: {
+        id: posted.id,
+        channelId: target.id,
+        channelName: target.name,
+        createdAt: posted.timestamp ?? posted.createdAt ?? new Date().toISOString(),
+      },
+    });
+    return `Submitted routine candidate ${completed.receipt.routineProposalId} to #${target.name}. It is proposed, not enacted or scheduled; governance still has to decide whether to admit it.`;
+  } catch (error) {
+    return `The public routine-candidate post was sent, but its local submission receipt is unresolved (${error instanceof Error ? error.message : String(error)}). I will not post it again until that ambiguity is reconciled.`;
+  }
+}
+
 /**
  * Turntide-owned civic routing in front of generic inference.
  *
@@ -814,15 +863,15 @@ export async function civicAnswerForMessage(channel, message, source = process.e
     || /\bdecision procedure\b|\bwhat procedure\b|\bhow (?:would|does|should) turntide decide\b|\bdoes (?:this|it) need (?:a )?vote\b|\bneed(?:s)? (?:a )?vote\b|\bwho decides\b|\bwhat kind of governance\b/u.test(text);
   if (!civicCue) return null;
 
-  const civicRoot = publicTurntideRoot(source);
-  const civicModule = await import(pathToFileURL(path.join(civicRoot, "lib", "zelo-civic-service.mjs")).href);
-  const context = await civicModule.loadZeloCivicContext(civicRoot);
+  const context = await civicModule.loadZeloCivicContext(publicTurntideRoot(source));
 
   let result;
   const dataRoot = env("TTI_AGENT_DATA_ROOT", source) ?? path.join(packageRoot, "data", "agent");
   const authorId = typeof message?.authorId === "string" ? message.authorId : null;
   const continueCandidate = /continue routine candidate\s+([^\s]+)/iu.exec(content);
   const continueProposal = /continue proposal(?: draft)?\s+([^\s]+)/iu.exec(content);
+  const updateRoutineCandidate = routineCandidateUpdateCommand(content);
+  const submitRoutineCandidate = routineCandidateSubmitHandle(content);
   const updateProposal = proposalDraftUpdateCommand(content);
   const submitProposal = proposalDraftSubmitHandle(content);
   if (updateProposal !== null) {
@@ -893,6 +942,41 @@ export async function civicAnswerForMessage(channel, message, source = process.e
       civicModule.formatZelo(draft),
       intake.record.next,
     ].join("\n");
+  } else if (updateRoutineCandidate !== null) {
+    if (authorId === null) return "I cannot update a private routine candidate without a stable author identity.";
+    try {
+      const updated = await recordRoutineCandidateFieldUpdate({
+        dataRoot,
+        authorId,
+        handle: updateRoutineCandidate.handle,
+        message: { ...message, channelId: channel?.id },
+        field: updateRoutineCandidate.field,
+        value: updateRoutineCandidate.value,
+      });
+      const candidate = updated.candidate;
+      const draft = civicModule.draftRoutineCandidate(context, {
+        observedRepetition: candidate.observation,
+        beneficiary: candidate.beneficiary,
+        triggerOrCadence: candidate.triggerOrCadence,
+        actor: candidate.actor,
+        output: candidate.output,
+        authorityBoundary: candidate.authorityBoundary,
+        failureMode: candidate.failureMode,
+        retirementCondition: candidate.retirementCondition,
+      });
+      return [`Updated routine candidate ${updateRoutineCandidate.handle}: ${updateRoutineCandidate.field}.`, civicModule.formatZelo(draft)].join("\n");
+    } catch (error) {
+      return `I could not update that routine candidate: ${error instanceof Error ? error.message : String(error)}`;
+    }
+  } else if (submitRoutineCandidate !== null) {
+    if (authorId === null) return "I cannot submit a private routine candidate without a stable author identity.";
+    return Object.freeze({
+      kind: "turntide.civic.routine-candidate-submission-request",
+      dataRoot,
+      authorId,
+      handle: submitRoutineCandidate,
+      message: Object.freeze({ ...message, channelId: channel?.id }),
+    });
   } else if (/routine candidates have i saved|show (?:me )?my routine candidates|list (?:my )?routine candidates|my saved routines/u.test(text)) {
     if (authorId === null) return "I cannot read a private routine-candidate inbox without a stable author identity.";
     const inbox = await routineCandidateInboxForAuthor(dataRoot, authorId);
@@ -911,10 +995,21 @@ export async function civicAnswerForMessage(channel, message, source = process.e
       return "That routine candidate belongs to #" + (candidate.source?.channelName ?? "its original channel") + ". Continue it there so its original context and privacy boundary stay intact.";
     }
     const studio = civicModule.routineStudio(context, { place, observation: candidate.observation });
+    const draft = civicModule.draftRoutineCandidate(context, {
+      observedRepetition: candidate.observation,
+      beneficiary: candidate.beneficiary,
+      triggerOrCadence: candidate.triggerOrCadence,
+      actor: candidate.actor,
+      output: candidate.output,
+      authorityBoundary: candidate.authorityBoundary,
+      failureMode: candidate.failureMode,
+      retirementCondition: candidate.retirementCondition,
+    });
     return [
       "Continuing routine candidate " + continueCandidate[1] + " from its original context.",
+      civicModule.formatZelo(draft),
       civicModule.formatZelo(studio),
-      "This remains advisory/draft-only until you explicitly refine and move it through Turntide\'s civic process.",
+      "This remains draft-only until all required fields are complete and you explicitly submit it; submission still does not enact or schedule the routine.",
     ].join("\n");
   } else if (/\b(?:save|record|draft|turn)\b[\s\S]*?\broutine candidate\b/u.test(text)) {
     const observation = routineCandidateObservation(content);
@@ -974,14 +1069,14 @@ export async function civicAnswerForMessage(channel, message, source = process.e
   return civicModule.formatZelo(result);
 }
 
-/** TTI_AGENT_MODEL pins an NVIDIA NIM model ahead of the engine's free-first providers. */
+/** TTI_AGENT_MODEL pins an NVIDIA NIM model ahead of the engine's routing order. */
 function stewardPreference(source) {
   const model = env("TTI_AGENT_MODEL", source);
   return model === undefined ? [] : [{ providerId: "nvidia-nim", model }];
 }
 
 export async function inferAnswer(prompt, source = process.env, system = renderOrchestrationSystem()) {
-  const result = await dispatchFreeFirst({
+  const result = await dispatchInOrder({
     model: "default",
     messages: [{ role: "system", content: system }, { role: "user", content: prompt }],
     params: { temperature: 0.4 },
@@ -993,12 +1088,17 @@ export async function inferAnswer(prompt, source = process.env, system = renderO
   return `Turntide Islands steward heard this but no inference provider answered (${grounds || "none armed"}): ${prompt}`;
 }
 
-export function shouldReply(content, botId) {
-  return new RegExp(`<@!?${botId}>`, "u").test(content);
+const NAME_ADDRESSED_PLACES = new Set(["dock", "governance-questions", "governance-discussion", "governance-proposals", "governance-action"]);
+
+/** A mention addresses Zelo anywhere; in the civic places, so does opening a message with its name. */
+export function shouldReply(content, botId, channelName) {
+  if (new RegExp(`<@!?${botId}>`, "u").test(content)) return true;
+  return typeof channelName === "string" && NAME_ADDRESSED_PLACES.has(normalizedName(channelName))
+    && /^\s*zelo(?:\s*[:,—-]|\s+)/iu.test(String(content ?? ""));
 }
 
 function inferenceReadiness(source) {
-  const providers = [...stewardPreference(source).map(({ providerId }) => providerId), ...armedFreeProviders(source).map(({ providerId }) => providerId)];
+  const providers = [...stewardPreference(source).map(({ providerId }) => providerId), ...armedProviders(source).map(({ providerId }) => providerId)];
   return {
     label: providers.length > 0 ? `inference providers (${providers.join(", ")})` : "no inference provider armed",
     ready: providers.length > 0,

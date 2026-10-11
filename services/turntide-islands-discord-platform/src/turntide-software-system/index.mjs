@@ -16,6 +16,7 @@ export const membershipProgram = Object.freeze({
   entitlement: "Turntide Islands community membership is free; completing Discord orientation grants the islander role.",
   fulfillment: "Discord onboarding and the islander role open the member community lanes. Paid products, if offered, use separate roles and terms.",
   cancellation: "Leaving a paid product never removes ordinary community membership and is not a moderation judgment.",
+  governance: "Membership, paid products and Discord roles do not grant Turntide governance or voting standing; governance is a separate participation relation, optional for every member.",
 });
 
 export const personas = Object.freeze([

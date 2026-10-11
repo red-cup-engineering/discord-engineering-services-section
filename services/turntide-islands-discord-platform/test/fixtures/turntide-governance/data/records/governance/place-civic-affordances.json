@@ -1,0 +1,27 @@
+{
+  "type": "TurntidePlaceCivicAffordances",
+  "version": 1,
+  "status": "synthetic test fixture; not a Turntide record",
+  "authorityEffect": "informational",
+  "places": [
+    {
+      "id": "question-quarry",
+      "aliases": [
+        "qq"
+      ],
+      "title": "Fixture Quarry",
+      "civicPurpose": "fixture asking place",
+      "ordinaryMoves": [
+        "ask a fixture question"
+      ],
+      "routineSeeds": [
+        "fixture relay"
+      ],
+      "escalation": "fixture discussion",
+      "zeloPrompts": [
+        "what fixture state is this in?"
+      ],
+      "authorityBoundary": "Fixture routing creates no authority."
+    }
+  ]
+}

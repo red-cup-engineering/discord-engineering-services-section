@@ -182,7 +182,7 @@ export function unionMediaLaunchAdmission(product) {
   if (product?.contract?.semanticId !== UNION_MEDIA_CONTRACT) missing.push("exact-syndication-contract");
   if (product?.territory?.categoryId !== "1529174198478700716" || product?.territory?.channelName !== "union-media") missing.push("declared-union-embassy-territory");
   if (product?.advertiserBoundary?.localOriginSurface?.status !== "live-least-authority-local-discovery-ready-raw-inbox-agent-card-and-jwks-fail-closed" || !isCanonicalSha256NiUri(product?.advertiserBoundary?.localOriginSurface?.probeReceipt)) missing.push("witnessed-least-authority-local-origin-surface");
-  if (product?.commercial?.externalRevenueReceiptCount !== 0 || product?.commercial?.recognizedRevenueMicros !== 0 || product?.commercial?.acquiredAgentResourceUnits !== 0 || product?.commercial?.recognizedProfitMicros !== null) missing.push("honest-zero-cash-and-resource-acquisition-with-unknown-profit");
+  if (product?.commercial?.externalRevenueReceiptCount !== 0 || product?.commercial?.recognizedRevenueMicros !== 0 || product?.commercial?.acquiredAgentResourceUnits !== 0 || product?.commercial?.recognizedProfitMicros !== null) missing.push("honest-zero-revenue-and-resource-acquisition-with-unknown-profit");
   return missing.length ? { type: "TTIUnionMediaLaunchRefusal", reason: "union-media-product-incomplete", missing } : { type: "TTIUnionMediaLaunchAdmission", productId: product.id, economicEffect: "none" };
 }
 

@@ -1,0 +1,71 @@
+{
+  "type": "TurntideDecisionProcedures",
+  "version": 1,
+  "status": "synthetic test fixture; not a Turntide record",
+  "authorityDomain": "turntide-governance",
+  "procedures": [
+    {
+      "id": "record-grounded-correction",
+      "title": "Fixture record-grounded correction",
+      "appliesWhen": "a fixture clerical correction with current-record evidence",
+      "decisionMode": "fixture correction",
+      "whoMayAuthorize": [
+        "recorded-governance-standing"
+      ],
+      "executor": "fixture executor",
+      "receiving": "fixture receipt"
+    },
+    {
+      "id": "delegated-clerical",
+      "title": "Fixture delegated clerical action",
+      "appliesWhen": "a fixture clerical action inside an active delegation",
+      "decisionMode": "fixture delegated action",
+      "whoMayAuthorize": [
+        "the active delegation's governing act"
+      ],
+      "executor": "fixture delegate",
+      "receiving": "fixture receipt"
+    },
+    {
+      "id": "enacted-routine-instance",
+      "title": "Fixture enacted routine instance",
+      "appliesWhen": "a fixture instance of an enacted routine",
+      "decisionMode": "fixture routine",
+      "whoMayAuthorize": [
+        "the enacted routine"
+      ],
+      "executor": "fixture executor",
+      "receiving": "fixture receipt"
+    },
+    {
+      "id": "ordinary-governance-act",
+      "title": "Fixture ordinary act",
+      "appliesWhen": "a fixture ordinary change",
+      "decisionMode": "fixture recorded decision",
+      "whoMayAuthorize": [
+        "recorded-governance-standing"
+      ],
+      "executor": "fixture executor",
+      "receiving": "fixture receipt"
+    },
+    {
+      "id": "structural-governance-act",
+      "title": "Fixture structural act",
+      "appliesWhen": "a fixture structural change",
+      "decisionMode": "fixture structural decision",
+      "whoMayAuthorize": [
+        "turntide-wide recorded-governance-standing"
+      ],
+      "executor": "fixture executor",
+      "receiving": "fixture receipt"
+    }
+  ],
+  "foreignAuthorityRoutes": [
+    {
+      "id": "tidepool-financial-governance",
+      "appliesWhen": "a fixture Tidepool financial matter",
+      "routeTo": "fixture Tidepool authority",
+      "note": "fixture foreign route"
+    }
+  ]
+}

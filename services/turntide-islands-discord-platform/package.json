@@ -74,6 +74,9 @@
     "./expressions": {
       "import": "./src/turntide-software-system/expressions.mjs"
     },
+    "./zelo-civic-service": {
+      "import": "./src/turntide-software-system/zelo-civic-service.mjs"
+    },
     "./steward": {
       "import": "./src/turntide-software-system/steward.mjs"
     },
@@ -107,7 +110,7 @@
     "@red-cup-engineering/activitypub-services-section": "workspace:*",
     "@red-cup-engineering/category-reference-index-service": "workspace:*",
     "@red-cup-engineering/computer-code-engineering-services-section": "workspace:*",
-    "@red-cup-engineering/computer-data-engineering-services-section": "workspace:*",
+    "@red-cup-engineering/computer-content-address-engineering-services-section": "workspace:*",
     "@red-cup-engineering/computer-serialized-content-engineering-services-section": "workspace:*",
     "@red-cup-engineering/computer-filepath-engineering-services-section": "workspace:*",
     "@red-cup-engineering/computer-inference-engine": "workspace:*",
@@ -117,9 +120,10 @@
     "@red-cup-engineering/computer-file-engineering-services-section": "workspace:*",
     "@red-cup-engineering/http-services-section": "workspace:*",
     "@red-cup-engineering/immutable-content-custody-service": "workspace:*",
+    "@red-cup-engineering/semiotic-eavt-services-section": "workspace:*",
     "@red-cup-engineering/uri-services-section": "workspace:*",
     "@red-cup-engineering/witness-journal-document-service": "workspace:*",
-    "@red-cup-engineering/computer-content-address-engineering-services-section": "workspace:*"
+    "@red-cup-engineering/computer-data-engineering-services-section": "workspace:*"
   },
   "sideEffects": false
 }
