@@ -1,0 +1,19 @@
+[Unit]
+Description=Turntide Islands Zelo Discord steward
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/home/emsenn/services/turntide-islands-discord-platform/current
+EnvironmentFile=/home/emsenn/561-group/lib/turntide-islands/.env
+Environment=TTI_AGENT_MODEL=nvidia/nemotron-3-nano-30b-a3b
+Environment=TTI_AGENT_DATA_ROOT=/home/emsenn/services/turntide-islands-discord-platform/shared/data/agent
+Environment=TURNTIDE_PUBLIC_ROOT=/home/emsenn/561-group/lib/turntide-islands
+ExecStart=/home/emsenn/.nvm/versions/node/v24.16.0/bin/node src/turntide-software-system/steward.mjs run
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
