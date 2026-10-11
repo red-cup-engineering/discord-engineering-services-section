@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
-import { admitJsonSemanticContent } from "@red-cup-engineering/computer-content-engineering-services-section/semantic-content-identity";
-import { EMPTY_WITNESS_ROOT, identifyJsonSemanticContent } from "@red-cup-engineering/computer-content-engineering-services-section/semantic-content-identity";
+import { admitJsonSemanticContent } from "@red-cup-engineering/computer-content-address-engineering-services-section/semantic-content-identity";
+import { EMPTY_WITNESS_ROOT, identifyJsonSemanticContent } from "@red-cup-engineering/computer-content-address-engineering-services-section/semantic-content-identity";
 import { identifyTurntideDiscordPlatformRecord as semanticId } from "./discord-platform-record-semantic-content.mjs";
 // Objects that cross the boundary into @causeway-services/turntide-union-media-syndication-service (the placement
 // request itself, and the TTIUnionMediaPlacementRequestAdmission it produces/records) are self-addressed under
