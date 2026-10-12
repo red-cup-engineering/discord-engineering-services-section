@@ -6,7 +6,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
-import { createSemanticRecordJournal } from "@red-cup-engineering/semiotic-eavt-services-section/record-semantic-record";
+import { extend } from "@red-cup-engineering/semiotic-eavt-services-section/store";
 
 import { TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES, TURNTIDE_GOVERNANCE_JOURNAL_KIND } from "../../src/turntide-software-system/zelo-civic-service.mjs";
 
@@ -107,16 +107,17 @@ export const revocation = Object.freeze({
 });
 
 /**
- * A throwaway governance journal holding the given records, each `{ category, record, recordedAt, told }`
+ * A throwaway governance journal holding the given records in order, each `{ category, record, told }`
  * (told defaults to held). Removed when the test ends.
  */
 export async function syntheticGovernanceJournal(t, entries) {
   const root = await mkdtemp(path.join(tmpdir(), "turntide-governance-journal-"));
   t.after(() => rm(root, { recursive: true, force: true }));
-  const journal = createSemanticRecordJournal({ root, objectKind: TURNTIDE_GOVERNANCE_JOURNAL_KIND });
-  entries.forEach(({ category, record, recordedAt, told = HELD }, index) => {
-    journal.record({ category, record, recordedAt: recordedAt ?? `2026-01-01T00:00:${String(index).padStart(2, "0")}.000Z`, told });
-  });
+  // A law is the record its type's head `current` names, the latest recorded; the events are one thread.
+  for (const { category, record, told = HELD } of entries) {
+    const plain = told.for === true && told.against === false;
+    extend(root, category, category === TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES.delegationEvent ? "events" : "current", plain ? record : { ...record, told });
+  }
   return root;
 }
 

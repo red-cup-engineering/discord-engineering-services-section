@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import { createSemanticRecordJournal } from "@red-cup-engineering/semiotic-eavt-services-section/record-semantic-record";
+import { get, readHead, walk } from "@red-cup-engineering/semiotic-eavt-services-section/store";
 
 import { activeDelegationOf, deriveDelegationRegistry } from "./delegation-registry.mjs";
 
@@ -11,8 +11,11 @@ const GOVERNANCE = "data/records/governance";
 /**
  * The kind of Turntide's governance journal and the categories of the records the kernel reads from it.
  * The civic-kernel laws and the delegation events are signed, cell-typed semantic records, each carrying
- * its own for/against evidence, kept in Turntide's semantic record journal; they are not files of a new
- * JSON record format. The journal belongs to Turntide's public records like the governance directory does.
+ * its own for/against evidence, kept in Turntide's semiotic-eavt store; they are not files of a new
+ * JSON record format. The store belongs to Turntide's public records like the governance directory does.
+ * A category is the store type its records are put under: each law is the one record the head `current` of
+ * its type names, and the delegation events are the thread the head `events` of their type names. A record
+ * told other than plainly for carries `told`.
  */
 export const TURNTIDE_GOVERNANCE_JOURNAL_KIND = "turntide-governance";
 export const TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES = Object.freeze({
@@ -32,7 +35,13 @@ async function readJson(path) {
 }
 
 function held(row) {
-  return row.told?.for === true && row.told?.against === false;
+  return row.told === undefined || (row.told.for === true && row.told.against === false);
+}
+
+/** A stored record as `{id, record, told?}`: `id` is its address, `told` the telling when it is not plain. */
+function rowOf(address, stored) {
+  const { told, ...record } = stored;
+  return told === undefined ? { id: address, record } : { id: address, record, told };
 }
 
 /**
@@ -40,9 +49,13 @@ function held(row) {
  * against. A newer record that is denied or contested leaves the law unheld rather than falling back to an
  * older version, and a category with no record leaves it absent; either way the kernel reads null.
  */
-function heldLaw(journal, key) {
-  const rows = journal.query({ category: TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES[key] });
-  const latest = rows.at(-1);
+function heldLaw(journalRoot, key) {
+  const type = TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES[key];
+  const frontier = readHead(journalRoot, type, "current")?.frontier ?? [];
+  if (frontier.length > 1) throw new TypeError(`Turntide governance journal ${type} holds more than one current record`);
+  const stored = frontier.length === 0 ? undefined : get(journalRoot, type, frontier[0]);
+  if (frontier.length === 1 && stored === undefined) throw new TypeError(`Turntide governance journal ${type} current record ${frontier[0]} is absent`);
+  const latest = stored === undefined ? undefined : rowOf(frontier[0], stored);
   if (latest === undefined || !held(latest)) return null;
   if (latest.record?.type !== LAW_TYPES[key]) {
     throw new TypeError(`Turntide governance journal ${TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES[key]} record ${latest.id} is not a ${LAW_TYPES[key]}`);
@@ -54,8 +67,12 @@ function heldLaw(journal, key) {
  * Every delegation event in the journal. An event that is denied or contested cannot be read back either way
  * (dropping a contested revocation would leave a grant looking active), so the kernel refuses the history.
  */
-function delegationEventsOf(journal) {
-  return Object.freeze(journal.query({ category: TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES.delegationEvent }).map((row) => {
+function delegationEventsOf(journalRoot) {
+  const type = TURNTIDE_GOVERNANCE_JOURNAL_CATEGORIES.delegationEvent;
+  const frontier = readHead(journalRoot, type, "events")?.frontier ?? [];
+  const thread = [...walk(journalRoot, type, frontier, { limit: 100_000 })];
+  if (thread.some((item) => item.missing === true || item.truncated === true)) throw new TypeError("delegation-event: the event history is incomplete or too long to read back");
+  return Object.freeze(thread.reverse().map(({ address, record }) => rowOf(address, record)).map((row) => {
     if (!held(row)) throw new TypeError(`delegation-event: journal record ${row.id} is not held (told for and not against); a denied or contested event cannot be read back`);
     return Object.freeze(structuredClone(row.record));
   }));
@@ -95,7 +112,7 @@ export async function loadZeloCivicContext(root, { journalRoot = root } = {}) {
   for (const name of (await readdir(actsRoot)).filter((name) => name.endsWith(".json")).sort()) {
     acts.push(await readJson(resolve(actsRoot, name)));
   }
-  const journal = createSemanticRecordJournal({ root: resolve(journalRoot), objectKind: TURNTIDE_GOVERNANCE_JOURNAL_KIND });
+  const journal = resolve(journalRoot);
   const decisionClassification = heldLaw(journal, "decisionClassification");
   const delegationLaw = heldLaw(journal, "delegationLaw");
   const conformanceLaw = heldLaw(journal, "conformanceLaw");
