@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { appendFile, mkdir, readFile } from "node:fs/promises";
-import { armedProviders, dispatchInOrder } from "@red-cup-engineering/computer-inference-engine/openai/provider-runtime";
+import { armedFreeProviders, dispatchFreeFirst } from "@red-cup-engineering/computer-inference-engine/openai/provider-runtime";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { bootstrapChannels, bootstrapCommands, communityName, laneByName, membershipProgram, persona, renderOrchestrationSystem, renderPersonaSystem } from "./index.mjs";
@@ -1076,7 +1076,7 @@ function stewardPreference(source) {
 }
 
 export async function inferAnswer(prompt, source = process.env, system = renderOrchestrationSystem()) {
-  const result = await dispatchInOrder({
+  const result = await dispatchFreeFirst({
     model: "default",
     messages: [{ role: "system", content: system }, { role: "user", content: prompt }],
     params: { temperature: 0.4 },
@@ -1098,7 +1098,7 @@ export function shouldReply(content, botId, channelName) {
 }
 
 function inferenceReadiness(source) {
-  const providers = [...stewardPreference(source).map(({ providerId }) => providerId), ...armedProviders(source).map(({ providerId }) => providerId)];
+  const providers = [...stewardPreference(source).map(({ providerId }) => providerId), ...armedFreeProviders(source).map(({ providerId }) => providerId)];
   return {
     label: providers.length > 0 ? `inference providers (${providers.join(", ")})` : "no inference provider armed",
     ready: providers.length > 0,
