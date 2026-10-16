@@ -1,8 +1,0 @@
-node_modules/
-.pnpm-store/
-.tmp/
-.env
-.env.*
-!.env.example
-*.log
-dist/
