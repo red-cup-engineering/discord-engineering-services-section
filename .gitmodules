@@ -1,0 +1,12 @@
+[submodule "services/web-platform-services-section/services/web2-platform-services-section/services/web2-social-platform-services-section/services/discord-services-section/services/turntide-islands-discord-platform"]
+	path = services/turntide-islands-discord-platform
+	url = https://github.com/red-cup-engineering/turntide-islands-discord-platform.git
+	branch = main
+[submodule "discord-territory-planning-service"]
+	path = services/discord-territory-planning-service
+	url = https://github.com/red-cup-engineering/discord-territory-planning-service.git
+	branch = main
+[submodule "discord-rest-transport-service"]
+	path = services/discord-rest-transport-service
+	url = https://github.com/red-cup-engineering/discord-rest-transport-service.git
+	branch = main
