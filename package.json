@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/red-cup-engineering/computer-web-engineering-services-section.git",
-    "directory": "services/web-platform-services-section/services/web2-platform-services-section/services/web2-social-platform-services-section/services/discord-services-section"
+    "url": "git+https://github.com/red-cup-engineering/discord-services-section.git"
   },
   "private": true,
   "type": "module",
