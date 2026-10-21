@@ -7,5 +7,10 @@
   },
   "private": true,
   "type": "module",
-  "description": "Reusable Discord territorial planning without cross-colony plate writes."
+  "description": "Reusable Discord territorial planning without cross-colony plate writes.",
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  }
 }
