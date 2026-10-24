@@ -1,9 +1,9 @@
 {
-  "name": "@red-cup-engineering/discord-services-section",
+  "name": "@red-cup-engineering/discord-engineering-services-section",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/red-cup-engineering/discord-services-section.git"
+    "url": "git+https://github.com/red-cup-engineering/discord-engineering-services-section.git"
   },
   "private": true,
   "type": "module",
