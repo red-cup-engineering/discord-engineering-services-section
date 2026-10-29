@@ -1,0 +1,8 @@
+{
+  "name": "@red-cup-engineering/discord-steward-run-service",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": {
+    "discord-steward-run": "./src/entry.mts"
+  }
+}
