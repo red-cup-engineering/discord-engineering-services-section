@@ -1,0 +1,8 @@
+{
+  "name": "@red-cup-engineering/discord-steward-check-service",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": {
+    "discord-steward-check": "./src/entry.mts"
+  }
+}

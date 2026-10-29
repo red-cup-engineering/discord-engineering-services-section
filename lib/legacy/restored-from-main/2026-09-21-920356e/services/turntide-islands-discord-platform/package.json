@@ -1,0 +1,118 @@
+{
+  "name": "@red-cup-engineering/turntide-islands-discord-platform",
+  "version": "0.0.5",
+  "type": "module",
+  "description": "Engineering implementation of the Turntide Islands Discord platform, consuming public Turntide configuration and declared service boundaries.",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "check": "tsc --noEmit -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "serve": "node dist/turntide-software-system/serve.mjs",
+    "serve:union-media-origin": "node dist/turntide-software-system/serve-union-media-origin.mjs",
+    "emit": "node dist/turntide-software-system/cli.mjs emit",
+    "build:site": "node dist/turntide-software-system/cli.mjs build-site dist/site",
+    "steward:check": "node dist/turntide-software-system/steward.mjs check",
+    "steward:discover-env": "node dist/turntide-software-system/steward.mjs discover-env",
+    "steward:live-permissions": "node dist/turntide-software-system/steward.mjs live-permissions",
+    "steward:measure": "node dist/turntide-software-system/steward.mjs measure",
+    "steward:invite": "node dist/turntide-software-system/steward.mjs invite",
+    "steward:bootstrap": "node dist/turntide-software-system/steward.mjs bootstrap",
+    "steward:bootstrap:smoke": "node dist/turntide-software-system/steward.mjs bootstrap-smoke",
+    "steward:probe": "node dist/turntide-software-system/steward.mjs probe",
+    "steward:ingest-history": "node dist/turntide-software-system/steward.mjs ingest-history",
+    "steward:ingest-history:smoke": "node dist/turntide-software-system/steward.mjs ingest-history-smoke",
+    "steward:ingest-signals": "node dist/turntide-software-system/steward.mjs ingest-signals",
+    "steward:tick": "node dist/turntide-software-system/steward.mjs tick",
+    "steward:work-roster": "node dist/turntide-software-system/scripts/zelo-work-roster.mjs observe",
+    "steward:work-roster:list": "node dist/turntide-software-system/scripts/zelo-work-roster.mjs list",
+    "steward:snapshot-guild": "node dist/turntide-software-system/scripts/snapshot-discord-guild-state.mjs",
+    "steward:membership:reconcile": "node dist/turntide-software-system/steward.mjs membership-reconcile",
+    "steward:membership:reconcile:smoke": "node dist/turntide-software-system/steward.mjs membership-reconcile-smoke",
+    "steward:membership:service:smoke": "node dist/turntide-software-system/steward.mjs membership-service-smoke",
+    "steward:smoke": "node dist/turntide-software-system/steward.mjs smoke",
+    "steward:context:smoke": "node dist/turntide-software-system/steward.mjs context-smoke",
+    "steward:gateway:smoke": "node dist/turntide-software-system/steward.mjs gateway-smoke",
+    "steward:supervision:smoke": "node dist/turntide-software-system/steward.mjs supervision-smoke",
+    "steward:archipelago:smoke": "node dist/turntide-software-system/steward.mjs archipelago-smoke",
+    "steward:cultivate": "node dist/turntide-software-system/steward.mjs cultivate",
+    "steward:cultivate:smoke": "node dist/turntide-software-system/steward.mjs cultivate-smoke",
+    "steward:preflight": "node dist/turntide-software-system/steward.mjs preflight",
+    "steward:run": "node dist/turntide-software-system/steward.mjs run"
+  },
+  "bin": {
+    "turntide-daily-divination-report": "./dist/turntide-software-system/scripts/daily-divination-report.mjs"
+  },
+  "main": "./dist/turntide-software-system/index.mjs",
+  "types": "./dist/turntide-software-system/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/turntide-software-system/index.d.mts",
+      "import": "./dist/turntide-software-system/index.mjs"
+    },
+    "./site": {
+      "types": "./dist/turntide-software-system/site.d.mts",
+      "import": "./dist/turntide-software-system/site.mjs"
+    },
+    "./discord": {
+      "types": "./dist/turntide-software-system/discord.d.mts",
+      "import": "./dist/turntide-software-system/discord.mjs"
+    },
+    "./discord-guild-state": {
+      "types": "./dist/turntide-software-system/discord-guild-state.d.mts",
+      "import": "./dist/turntide-software-system/discord-guild-state.mjs"
+    },
+    "./community-moderation": {
+      "types": "./dist/turntide-software-system/community-moderation.d.mts",
+      "import": "./dist/turntide-software-system/community-moderation.mjs"
+    },
+    "./membership": {
+      "types": "./dist/turntide-software-system/membership.d.mts",
+      "import": "./dist/turntide-software-system/membership.mjs"
+    },
+    "./carriers": {
+      "types": "./dist/turntide-software-system/carriers.d.mts",
+      "import": "./dist/turntide-software-system/carriers.mjs"
+    },
+    "./steward": {
+      "types": "./dist/turntide-software-system/steward.d.mts",
+      "import": "./dist/turntide-software-system/steward.mjs"
+    },
+    "./serve": {
+      "types": "./dist/turntide-software-system/serve.d.mts",
+      "import": "./dist/turntide-software-system/serve.mjs"
+    },
+    "./union-media-origin": {
+      "types": "./dist/turntide-software-system/union-media-origin.d.mts",
+      "import": "./dist/turntide-software-system/union-media-origin.mjs"
+    },
+    "./serve-union-media-origin": {
+      "types": "./dist/turntide-software-system/serve-union-media-origin.d.mts",
+      "import": "./dist/turntide-software-system/serve-union-media-origin.mjs"
+    },
+    "./package.json": "./package.json",
+    "./dist/turntide-software-system/discord.mjs": "./dist/turntide-software-system/discord.mjs"
+  },
+  "dependencies": {
+    "@causeway-services/turntide-steward-inference-procurement-service": "0.0.0",
+    "@causeway-services/turntide-union-media-syndication-service": "0.0.0",
+    "@causeway-services/turntide-witness-journal-binding-service": "0.0.0",
+    "@napi-rs/canvas": "1.0.6",
+    "@red-cup-engineering/a2a-agent-card-discovery-service": "0.6.0",
+    "@red-cup-engineering/a2a-rmn-task-client-service": "0.6.0",
+    "@red-cup-engineering/computer-data-engine": "0.10.0",
+    "@red-cup-engineering/discord-rest-transport-service": "0.4.0",
+    "@red-cup-engineering/inference-work-lot-service": "0.6.0",
+    "@red-cup-engineering/relation-model-notation-runtime": "0.14.0",
+    "@red-cup-engineering/relation-model-notation-typing": "0.0.2",
+    "@red-cup-engineering/witness-journal-document-service": "0.1.0",
+    "@red-cup-engineering/settlement-account-binding-service": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.1",
+    "typescript": "5.9.3"
+  },
+  "sideEffects": false
+}
