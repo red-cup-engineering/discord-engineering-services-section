@@ -1,0 +1,148 @@
+{
+  "name": "@emsenn/turntide-islands.discord.com",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "decommissioned",
+    "triage"
+  ],
+  "description": "Turntide Islands Discord site and archive, downstream of @emsenn/organizing-with-discord.",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "serve": "node src/serve.mts",
+    "steward:check": "node src/steward.mts check",
+    "steward:discover-env": "node src/steward.mts discover-env",
+    "steward:live-permissions": "node src/steward.mts live-permissions",
+    "steward:measure": "node src/steward.mts measure",
+    "steward:ingest-history": "node src/ingest-history.mts",
+    "steward:ingest-history:smoke": "node src/steward.mts ingest-history-smoke",
+    "steward:invite": "node src/steward.mts invite",
+    "steward:bootstrap": "node src/steward.mts bootstrap",
+    "steward:bootstrap:smoke": "node src/steward.mts bootstrap-smoke",
+    "steward:preflight": "node src/steward.mts preflight",
+    "steward:probe": "node src/steward.mts probe",
+    "steward:smoke": "node src/steward.mts smoke",
+    "steward:context:smoke": "node src/steward.mts context-smoke",
+    "steward:gateway:smoke": "node src/steward.mts gateway-smoke",
+    "steward:supervision:smoke": "node src/steward.mts supervision-smoke",
+    "steward:archipelago:smoke": "node src/steward.mts archipelago-smoke",
+    "steward:membership:reconcile": "node src/steward.mts membership-reconcile",
+    "steward:membership:reconcile:smoke": "node src/steward.mts membership-reconcile-smoke",
+    "steward:membership:service:smoke": "node src/steward.mts membership-service-smoke",
+    "steward:cultivate": "node src/steward.mts cultivate",
+    "steward:cultivate:smoke": "node src/steward.mts cultivate-smoke",
+    "steward:run": "node src/steward.mts run",
+    "check": "tsc --noEmit"
+  },
+  "bin": {
+    "turntide-capital-measurement": "./scripts/capital-measurement.mjs",
+    "turntide-membership": "./scripts/membership.mjs",
+    "turntide-orchestration": "./scripts/orchestration.mjs",
+    "turntide-summary": "./scripts/summary.mjs",
+    "turntide-vault": "./scripts/vault.mjs"
+  },
+  "x-jsnode-bin-transport": {
+    "protocol": "stdio-json",
+    "input": "application/json",
+    "output": "application/json"
+  },
+  "x-jsnode-bin": {
+    "turntide-capital-measurement": {
+      "summary": "Read the Turntide Islands Discord capital-measurement carrier.",
+      "description": "Projects the durable/trapped capital and enclosure criteria used by the Turntide Islands steward.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    "turntide-membership": {
+      "summary": "Read the Turntide Islands membership carrier.",
+      "description": "Projects the paid membership program, rendered membership system, and unresolved environment references.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    "turntide-orchestration": {
+      "summary": "Read the Turntide Islands orchestration carrier.",
+      "description": "Projects the Discord orchestration profile, rendered agent system, lanes, roles, and source streams.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    "turntide-summary": {
+      "summary": "Read the Turntide Islands site summary carrier.",
+      "description": "Projects the site summary derived from organizing-with-discord and organizing-a-knowledge-vault carriers.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    "turntide-vault": {
+      "summary": "Read the Turntide Islands vault carrier.",
+      "description": "Projects the knowledge-vault rigging, climate-breakdown document sample, and rendered vault system prompt.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    }
+  },
+  "exports": {
+    ".": "./src/index.mts",
+    "./serve": "./src/serve.mts",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@emsenn/app-discord-steward": "workspace:*",
+    "@emsenn/http-server": "workspace:*",
+    "@emsenn/jsnode-ick": "workspace:*",
+    "@emsenn/organizing-a-knowledge-vault": "workspace:*",
+    "@emsenn/organizing-with-agents": "workspace:*",
+    "@emsenn/organizing-with-discord": "workspace:*",
+    "@emsenn/organizing-with-openai-agents": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  },
+  "sideEffects": false
+}
