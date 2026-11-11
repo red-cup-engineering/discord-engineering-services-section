@@ -1,0 +1,21 @@
+{
+  "name": "@red-cup-engineering/discord-territory-planning-service",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/red-cup-engineering/discord-engineering-services-section.git",
+    "directory": "services/discord-territory-planning-service"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/*.mjs",
+    "test": "node --test test/*.test.mjs",
+    "verify": "npm run check && npm test"
+  },
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  }
+}

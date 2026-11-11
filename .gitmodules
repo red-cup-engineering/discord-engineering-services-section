@@ -1,8 +1,0 @@
-[submodule "services/discord-territory-planning-service"]
-	path = services/discord-territory-planning-service
-	url = https://github.com/red-cup-engineering/discord-territory-planning-service.git
-	branch = main
-[submodule "services/discord-rest-transport-service"]
-	path = services/discord-rest-transport-service
-	url = https://github.com/red-cup-engineering/discord-rest-transport-service.git
-	branch = main
