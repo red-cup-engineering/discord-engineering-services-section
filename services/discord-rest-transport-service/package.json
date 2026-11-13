@@ -2,7 +2,7 @@
   "name": "@red-cup-engineering/discord-rest-transport-service",
   "version": "0.6.3",
   "type": "module",
-  "description": "Discord REST protocol capability: typed carriers, dependency-free codecs, bot transport, and narrow user-OAuth identity and guild-membership transport shared across the discord-services-section.",
+  "description": "Discord REST protocol capability: typed carriers, dependency-free codecs, bot transport, and narrow user-OAuth identity and guild-membership transport shared across the discord-engineering-services-section.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/red-cup-engineering/discord-engineering-services-section.git",
