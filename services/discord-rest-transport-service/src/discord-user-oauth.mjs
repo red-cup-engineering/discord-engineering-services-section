@@ -8,7 +8,7 @@
  * their complete guild list or retaining a high-authority bot token.
  */
 
-import { isObjectRecord } from "@red-cup-engineering/json-services-section";
+import { isObjectRecord } from "@red-cup-engineering/json-engineering-services-section";
 
 export const DISCORD_USER_SCOPES = Object.freeze(["identify", "guilds.members.read"]);
 export const DISCORD_AUTHORIZE_URL = "https://discord.com/oauth2/authorize";

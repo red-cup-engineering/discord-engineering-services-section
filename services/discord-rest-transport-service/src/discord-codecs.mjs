@@ -1,4 +1,4 @@
-import { isObjectRecord as record } from "@red-cup-engineering/json-services-section";
+import { isObjectRecord as record } from "@red-cup-engineering/json-engineering-services-section";
 
 function text(value) { return typeof value === "string" && value.length > 0; }
 function optionalText(value) { return value === undefined || typeof value === "string"; }

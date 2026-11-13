@@ -1,4 +1,4 @@
-import { isObjectRecord } from "@red-cup-engineering/json-services-section";
+import { isObjectRecord } from "@red-cup-engineering/json-engineering-services-section";
 
 function env(name, source = process.env) {
   const value = source[name];
