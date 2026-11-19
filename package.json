@@ -1,0 +1,16 @@
+{
+  "name": "@red-cup-engineering/discord-engineering-services-section",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/red-cup-engineering/discord-engineering-services-section.git"
+  },
+  "private": true,
+  "type": "module",
+  "description": "Reusable Discord territorial planning without cross-colony plate writes.",
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  }
+}
