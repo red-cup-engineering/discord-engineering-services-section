@@ -41,7 +41,7 @@ const redirect = (location, cookies = []) => {
   for (const setCookie of cookies) headers.append("set-cookie", setCookie);
   return new Response(null, { status: 303, headers });
 };
-const refused = (status, reason) =>
+const rejected = (status, reason) =>
   new Response(JSON.stringify({kind:"discord.user-oauth.session-refusal",reason}) + "\n", {
     status, headers:{...noStore,"content-type":"application/json; charset=utf-8"},
   });
@@ -137,12 +137,12 @@ export function createDiscordUserOAuthWebSessions({
     if (!["/oauth/discord/start", callback.pathname, "/oauth/discord/logout"].includes(path))
       return null;
     if (url.origin !== callback.origin)
-      return refused(404,"origin-not-admitted");
+      return rejected(404,"origin-not-admitted");
 
     if (path === "/oauth/discord/start") {
-      if (request.method !== "GET" || url.search) return refused(405,"start-must-be-get");
+      if (request.method !== "GET" || url.search) return rejected(405,"start-must-be-get");
       reap();
-      if (pending.size >= maxPending) return refused(503,"login-capacity");
+      if (pending.size >= maxPending) return rejected(503,"login-capacity");
       const state = randomToken(), verifier = randomToken();
       const challenge = createHash("sha256").update(verifier).digest("base64url");
       pending.set(state,{verifier,until:now()+MAX_STATE_AGE});
@@ -152,18 +152,18 @@ export function createDiscordUserOAuthWebSessions({
       return redirect(authorization,[cookie(pendingCookie,state,300)]);
     }
     if (path === callback.pathname) {
-      if (request.method !== "GET") return refused(405,"callback-must-be-get");
+      if (request.method !== "GET") return rejected(405,"callback-must-be-get");
       const code = url.searchParams.get("code"), state = url.searchParams.get("state");
       if ([...url.searchParams.keys()].some(key=>!["code","state"].includes(key)) ||
           url.searchParams.getAll("code").length!==1 ||
           url.searchParams.getAll("state").length!==1 ||
           !code || code.length>2048 ||
           !sameState(state,valueOfCookie(request,pendingCookie)))
-        return refused(403,"oauth-state-or-code-invalid");
+        return rejected(403,"oauth-state-or-code-invalid");
       reap();
       const challenge = pending.get(state);
       if (challenge === undefined || challenge.until <= now())
-        return refused(403,"oauth-state-expired-or-replayed");
+        return rejected(403,"oauth-state-expired-or-replayed");
       pending.delete(state); // one-use, before network exchange
       let tokens;
       try {
@@ -171,11 +171,11 @@ export function createDiscordUserOAuthWebSessions({
         const member = await getCurrentDiscordGuildMember(tokens.accessToken,guildId,lookupOptions);
         if (member === null || member.pending !== false) {
           await revokeDiscordAuthorization(tokens.refreshToken,{...oauthInput,tokenTypeHint:"refresh_token"}).catch(()=>{});
-          return refused(403,"not-current-guild-member");
+          return rejected(403,"not-current-guild-member");
         }
-      } catch { return refused(503,"oauth-verification-failed"); }
+      } catch { return rejected(503,"oauth-verification-failed"); }
       reap();
-      if (sessions.size>=maxSessions) return refused(503,"session-capacity");
+      if (sessions.size>=maxSessions) return rejected(503,"session-capacity");
       const id = randomToken(), at = now();
       sessions.set(id,{
         accessToken:tokens.accessToken,refreshToken:tokens.refreshToken,
@@ -186,7 +186,7 @@ export function createDiscordUserOAuthWebSessions({
         cleared(pendingCookie),cookie(activeCookie,id,MAX_SESSION_AGE/1000),
       ]);
     }
-    if (request.method !== "POST") return refused(405,"logout-must-be-post");
+    if (request.method !== "POST") return rejected(405,"logout-must-be-post");
     // SameSite=Lax is not a same-ORIGIN CSRF policy: another 561.group
     // subdomain could otherwise submit a form that clears this session.
     // This action has no bearer/body token, so require the exact canonical
@@ -194,7 +194,7 @@ export function createDiscordUserOAuthWebSessions({
     if (request.headers.get("origin") !== url.origin ||
         (request.headers.has("sec-fetch-site") &&
           request.headers.get("sec-fetch-site") !== "same-origin"))
-      return refused(403,"logout-origin-not-admitted");
+      return rejected(403,"logout-origin-not-admitted");
     const id = valueOfCookie(request,activeCookie);
     const entry = id===null?undefined:sessions.get(id);
     if (id!==null) sessions.delete(id); // local grant revoked even if Discord is down

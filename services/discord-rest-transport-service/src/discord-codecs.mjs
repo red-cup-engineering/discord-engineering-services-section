@@ -2,9 +2,9 @@ import { isObjectRecord as record } from "@red-cup-engineering/json-engine";
 
 function text(value) { return typeof value === "string" && value.length > 0; }
 function optionalText(value) { return value === undefined || typeof value === "string"; }
-function carrier(admit) {
+function carrier(validate) {
   return Object.freeze({ assert(value, label = "Discord value") {
-    if (!record(value) || !admit(value)) throw new TypeError(`${label} does not conform to the Discord HTTP projection`);
+    if (!record(value) || !validate(value)) throw new TypeError(`${label} does not conform to the Discord HTTP projection`);
     return value;
   } });
 }
