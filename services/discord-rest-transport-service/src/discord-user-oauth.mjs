@@ -1,3 +1,4 @@
+import { isRecord } from "@red-cup-engineering/signcell/values";
 /**
  * Discord's user-authorized HTTP boundary.
  *
@@ -8,7 +9,7 @@
  * their complete guild list or retaining a high-authority bot token.
  */
 
-import { isObjectRecord } from "@red-cup-engineering/json-engine";
+
 
 export const DISCORD_USER_SCOPES = Object.freeze(["identify", "guilds.members.read"]);
 export const DISCORD_AUTHORIZE_URL = "https://discord.com/oauth2/authorize";
@@ -33,7 +34,7 @@ function required(value, label) {
 }
 
 function record(value) {
-  if (!isObjectRecord(value)) {
+  if (!isRecord(value)) {
     throw new DiscordUserAuthorizationError("malformed_response", "Discord returned a malformed object");
   }
   return value;

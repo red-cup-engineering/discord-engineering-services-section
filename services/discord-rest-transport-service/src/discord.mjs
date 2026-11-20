@@ -1,4 +1,5 @@
-import { isObjectRecord } from "@red-cup-engineering/json-engine";
+import { isRecord } from "@red-cup-engineering/signcell/values";
+
 
 function env(name, source = process.env) {
   const value = source[name];
