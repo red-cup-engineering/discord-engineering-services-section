@@ -57,7 +57,7 @@ export function botToken(source = process.env) {
 
 
 /** Validate a code, not a caller-supplied URL or path (no arbitrary host or query). */
-export function validateDiscordInviteCode(value) {
+export function qualifyDiscordInviteCode(value) {
   if (typeof value !== "string" || !/^[A-Za-z0-9_-]{2,64}$/u.test(value)) {
     throw new TypeError("Discord invite needs one bounded code, not a URL or route");
   }
@@ -71,7 +71,7 @@ export function validateDiscordInviteCode(value) {
  * permanence from a provider GET.
  */
 export function readDiscordInviteResponse(wire, requestedCode) {
-  const code = validateDiscordInviteCode(requestedCode);
+  const code = qualifyDiscordInviteCode(requestedCode);
   const response = record(wire);
   if (response.code !== code) throw new TypeError("Discord invite returned a different code");
   if (response.type !== undefined && ![0, 1, 2].includes(response.type)) {
@@ -128,7 +128,7 @@ export class DiscordRestTransport {
 
   /** Read-only Discord Get Invite, never Accept Invite or guild membership. */
   async getInvite(code) {
-    const key = validateDiscordInviteCode(code);
+    const key = qualifyDiscordInviteCode(code);
     const result = await this.#request("GET", `/invites/${encodeURIComponent(key)}`);
     return readDiscordInviteResponse(result, key);
   }
@@ -406,7 +406,7 @@ export class InMemoryDiscordTransport {
     const guild = options.guild ?? { id: "guild-discord", name: "Discord Guild", ownerId: "owner" };
     this.guilds.set(guild.id, guild);
     for (const [code, observation] of options.invites ?? []) {
-      this.invites.set(validateDiscordInviteCode(code), observation);
+      this.invites.set(qualifyDiscordInviteCode(code), observation);
     }
     this.roles.set(guild.id, { id: guild.id, guildId: guild.id, name: "@everyone", permissions: "0" });
     this.premiumTier = options.premiumTier ?? 0;
@@ -427,7 +427,7 @@ export class InMemoryDiscordTransport {
   }
 
   async getInvite(code) {
-    const key = validateDiscordInviteCode(code);
+    const key = qualifyDiscordInviteCode(code);
     if (!this.invites.has(key)) {
       const error = new Error(`unknown Discord invite ${key}`);
       error.status = 404;
