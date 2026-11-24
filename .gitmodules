@@ -1,0 +1,20 @@
+[submodule "services/discord-community-automation-service"]
+	path = services/discord-community-automation-service
+	url = https://github.com/red-cup-engineering/discord-community-automation-service.git
+	branch = main
+[submodule "services/discord-community-moderation-planning-service"]
+	path = services/discord-community-moderation-planning-service
+	url = https://github.com/red-cup-engineering/discord-community-moderation-planning-service.git
+	branch = main
+[submodule "services/discord-member-lifecycle-planning-service"]
+	path = services/discord-member-lifecycle-planning-service
+	url = https://github.com/red-cup-engineering/discord-member-lifecycle-planning-service.git
+	branch = main
+[submodule "services/discord-reaction-system-observation-service"]
+	path = services/discord-reaction-system-observation-service
+	url = https://github.com/red-cup-engineering/discord-reaction-system-observation-service.git
+	branch = main
+[submodule "services/programmable-community-response-service"]
+	path = services/programmable-community-response-service
+	url = https://github.com/red-cup-engineering/programmable-community-response-service.git
+	branch = main
