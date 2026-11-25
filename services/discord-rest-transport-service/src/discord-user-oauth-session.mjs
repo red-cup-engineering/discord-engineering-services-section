@@ -6,7 +6,8 @@
  * No second Discord protocol, persistent account database, bot access token,
  * source rights, or authorization via a caller-controlled guild/role.
  */
-import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { sha256Base64Url } from "@red-cup-engineering/semiotic-content-address-system";
+import { randomBytes, timingSafeEqual } from "node:crypto";
 import {
   discordUserAuthorizationUrl, exchangeDiscordAuthorizationCode,
   refreshDiscordAuthorization, revokeDiscordAuthorization,
@@ -144,7 +145,7 @@ export function createDiscordUserOAuthWebSessions({
       reap();
       if (pending.size >= maxPending) return refused(503,"login-capacity");
       const state = randomToken(), verifier = randomToken();
-      const challenge = createHash("sha256").update(verifier).digest("base64url");
+      const challenge = sha256Base64Url(verifier);
       pending.set(state,{verifier,until:now()+MAX_STATE_AGE});
       const authorization = discordUserAuthorizationUrl({
         clientId,redirectUri,state,codeChallenge:challenge,

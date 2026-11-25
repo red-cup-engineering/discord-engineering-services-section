@@ -1,11 +1,11 @@
-import { createHash } from "node:crypto";
+import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
 
 export const DISCORD_TERRITORY_PLANNER = "urn:ame:discord-territory-planning-service";
 export const DISCORD_TERRITORY_LAW = "org.emsenn.discord-news-territory-planning.v1";
 export const DISCORD_PERMISSION = Object.freeze({ viewChannel: "1024", sendMessages: "2048", readMessageHistory: "65536" });
 
 function finite(value) { return typeof value === "string" && value.length > 0 && !value.includes("\0"); }
-function digest(value) { return `urn:sha256:${createHash("sha256").update(JSON.stringify(value)).digest("hex")}`; }
+function digest(value) { return `urn:sha256:${sha256Hex(JSON.stringify(value))}`; }
 function assertName(value, label) {
   if (!finite(value) || value.length > 100) throw new TypeError(`${label} must be a bounded Discord name`);
 }
