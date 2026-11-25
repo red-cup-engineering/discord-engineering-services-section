@@ -1,11 +1,10 @@
-import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
+import { semanticId } from "@red-cup-engineering/semiotic-content-address-system";
 
 export const DISCORD_TERRITORY_PLANNER = "urn:ame:discord-territory-planning-service";
 export const DISCORD_TERRITORY_LAW = "org.emsenn.discord-news-territory-planning.v1";
 export const DISCORD_PERMISSION = Object.freeze({ viewChannel: "1024", sendMessages: "2048", readMessageHistory: "65536" });
 
 function finite(value) { return typeof value === "string" && value.length > 0 && !value.includes("\0"); }
-function digest(value) { return `urn:sha256:${sha256Hex(JSON.stringify(value))}`; }
 function assertName(value, label) {
   if (!finite(value) || value.length > 100) throw new TypeError(`${label} must be a bounded Discord name`);
 }
@@ -35,5 +34,5 @@ export function planDiscordNewsTerritory(specification) {
     operations.push({ kind: "ensure-text-channel", channel: lane.channel, category: lane.category, topic: lane.topic, audience, publisherOnly: true });
   }
   const body = { type: "DiscordNewsTerritoryPlan", version: 1, law: DISCORD_TERRITORY_LAW, provider: DISCORD_TERRITORY_PLANNER, customer: specification.customer, guildId: specification.guildId, specificationDigest: digest(specification), operations };
-  return { ...body, planDigest: digest(body) };
+  return { ...body, planDigest: semanticId(body) };
 }
